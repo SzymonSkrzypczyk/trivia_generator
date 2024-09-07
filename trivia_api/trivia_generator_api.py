@@ -61,7 +61,7 @@ app = fastapi.FastAPI(title="Trivia Generator", description="An API that generat
 
 
 @app.get("/trivia", response_model=Question)
-async def generate_question(category: str) -> Question | fastapi.HTTPException:
+async def generate_question(category: str):
     """
     API endpoint asynchronously returning generated question for a category given by an user
 
