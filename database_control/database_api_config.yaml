@@ -1,3 +1,11 @@
 api_config:
   host: "127.0.0.1"
   port: 7000
+
+database:
+  database_name: "szymon"
+  host: "localhost"
+  port: 5433
+  user: "szymon"
+  password: "random"
+  sslmode: false

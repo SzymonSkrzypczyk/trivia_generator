@@ -2,6 +2,7 @@ package db_connector
 
 import (
 	"fmt"
+	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -39,10 +40,11 @@ func (db DB) getURL() string {
 		db.Password, db.DatabaseName, db.Port, disable)
 }
 
-func (db DB) Open() error {
+func (db *DB) Open() error {
 	database, err := gorm.Open(postgres.Open(db.getURL()), &gorm.Config{})
 	if err != nil {
-		return fmt.Errorf("failed to connect to the database: %w", err)
+		log.Fatal(fmt.Errorf("failed to connect to the database: %w", err))
+		return err
 	}
 
 	// add database to the DataBase structure
@@ -53,6 +55,7 @@ func (db DB) Open() error {
 	return nil
 }
 
+// maybe Generics here?
 func (db DB) Add(question Question) error {
 	// add a question to the database
 	res := db.Conn.Create(&question)
@@ -61,6 +64,18 @@ func (db DB) Add(question Question) error {
 		return res.Error
 	}
 	// if it was return nil error
+	return nil
+}
+
+func (db DB) AddMany(questions []Question) error {
+	// add a slice of Questions
+	res := db.Conn.Create(&questions)
+
+	// error validations
+	if err := res.Error; err != nil {
+		return err
+	}
+
 	return nil
 }
 

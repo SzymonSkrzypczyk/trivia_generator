@@ -4,18 +4,11 @@ import (
 	"fmt"
 	"log"
 
+	"database_control/db_connector"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
 )
-
-type Question struct {
-	Question       string `json:"question"`
-	Answer_a       string `json:"answer_a"`
-	Answer_b       string `json:"answer_b"`
-	Answer_c       string `json:"answer_c"`
-	Answer_d       string `json:"answer_d"`
-	Correct_answer string `json:"correct_answer"`
-}
 
 func main() {
 	// config loading
@@ -28,22 +21,48 @@ func main() {
 		log.Fatalf("Error reading config file: %v", err)
 	}
 
-	// set defaults
+	// set defaults for API
 	viper.SetDefault("api_config.host", "127.0.0.1")
 	viper.SetDefault("api_config.port", 6000)
+
+	// set default for the DATABASE
+	viper.SetDefault("database.database_name", "szymon")
+	viper.SetDefault("database.host", "localhost")
+	viper.SetDefault("database.port", 5433)
+	viper.SetDefault("database.user", "szymon")
+	// encryption!
+	viper.SetDefault("database.password", "****")
+	viper.SetDefault("database.sslmode", false)
 
 	// start fiber app
 	app := fiber.New()
 
+	// open database connection
+	db := db_connector.NewDB(
+		viper.GetString("database.database_name"),
+		viper.GetString("database.host"),
+		viper.GetString("database.user"),
+		viper.GetString("database.password"),
+		viper.GetInt("database.port"),
+		viper.GetBool("database.sslmode"))
+
+	db.Open()
+
 	// add an endpoint
 	app.Post("/database", func(c *fiber.Ctx) error {
-		var q Question
+		var question db_connector.Question
 
-		if err := c.BodyParser(&q); err != nil {
+		// retrieve
+		if err := c.BodyParser(&question); err != nil {
 			return c.Status(fiber.StatusBadRequest).SendString("Invalid JSON")
 		}
 
-		fmt.Printf("Received Question: %+v\n", q)
+		fmt.Printf("Received Question: %+v\n", question)
+
+		// maybe go routines for adding the rows?
+		// with mutex and all
+		// add a question to the database
+		db.Add(question)
 
 		return c.Status(fiber.StatusAccepted).SendString("Trivia question has been successfully sent over!")
 	})
@@ -54,6 +73,5 @@ func main() {
 
 	// create address and start the app
 	address := fmt.Sprintf("%s:%d", host, port)
-	fmt.Println(address)
-	//app.Listen(address)
+	app.Listen(address)
 }
