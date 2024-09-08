@@ -1,3 +1,5 @@
+import logging
+from logging.handlers import RotatingFileHandler
 from configparser import ConfigParser
 from pathlib import Path
 import fastapi
@@ -10,9 +12,7 @@ from langchain_core.output_parsers.string import StrOutputParser
 """
 To do: 
 - class for loading and validating config
-- class for logging 
-- logging 
-
+- error handling
 """
 
 # constants
@@ -22,10 +22,20 @@ HOST_CONFIG_FIELD = "host"
 PORT_CONFIG_FIELD = "port"
 MODEL_CONFIG_FIELD = "model"
 TRIVIA_CONFIG_PATH = Path(__file__).parent / "trivia_config.ini"
+LOG_FILE_PATH = Path(__file__).parent / "logs" / "api_log.log"
 
 # load config
 config = ConfigParser()
 config.read(str(TRIVIA_CONFIG_PATH))
+
+
+# setting up logging
+logging.basicConfig(
+    handlers=[RotatingFileHandler(LOG_FILE_PATH, maxBytes=1000000, backupCount=8)],
+    level=logging.INFO,
+    format="[%(asctime)s] %(levelname)s - %(message)s",
+    datefmt="%Y/%m/%d %H:%M:%S"
+)
 
 
 class Question(BaseModel):
@@ -44,6 +54,8 @@ class Question(BaseModel):
 # defined once at the start of the execution
 # out of its simplicity it's not contained by any function or method
 llm = Ollama(model=config.get(MODEL_CONFIG_SECTION, MODEL_CONFIG_FIELD))
+logging.info("LLM retrieved from Ollama")
+
 prompt = PromptTemplate.from_template(
     "You are a trivia questions generator. For a given category: {category}, generate a question about this topic and "
     "return it in the following CSV format: "
@@ -69,6 +81,7 @@ async def generate_question(category: str):
     :rtype: Question | fastapi.HTTPException
     """
     if category == "":
+        logging.error("An empty category has been provided")
         return fastapi.HTTPException(400, "You have to provide a correct category!")
 
     data = await chain.ainvoke({"category": category})
@@ -77,7 +90,10 @@ async def generate_question(category: str):
     # will be replaced with normal logic
     if len(data) != 6:
         print(data)
+        logging.error(f"The generated data has not been up to standard: {data}")
         return fastapi.HTTPException(500, "Internal problem with generating data!")
+
+    logging.info(f"Received {data} from the chain")
 
     return Question(
         question=data[0],
@@ -91,8 +107,11 @@ async def generate_question(category: str):
 if __name__ == '__main__':
     # run the api
     # config values will be later extended
+    logging.info(f"Starting up app at "
+                 f"{(host := config.get(API_CONFIG_SECTION, HOST_CONFIG_FIELD))}:"
+                 f"{(port := int(config.get(API_CONFIG_SECTION, PORT_CONFIG_FIELD)))}")
     run(
         app,
-        host=config.get(API_CONFIG_SECTION, HOST_CONFIG_FIELD),
-        port=int(config.get(API_CONFIG_SECTION, PORT_CONFIG_FIELD)),
+        host=host,
+        port=port,
     )

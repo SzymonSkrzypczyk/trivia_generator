@@ -88,7 +88,7 @@ func (db DB) GetMany(count int) ([]Question, error) {
 		return questions, fmt.Errorf("you have to provide a correct count of rows to be returned")
 	}
 	// retrieve a given number of rows
-	result := db.Conn.Limit(5).Find(&questions)
+	result := db.Conn.Limit(count).Find(&questions)
 
 	// check if retrieving the rows was successful
 	if err := result.Error; err != nil {
