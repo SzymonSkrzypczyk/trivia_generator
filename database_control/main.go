@@ -19,8 +19,8 @@ type Question struct {
 
 func main() {
 	// config loading
-	viper.SetConfigFile("database_api_config.ini")
-	viper.SetConfigType("ini")
+	viper.SetConfigFile("database_api_config.yaml")
+	viper.SetConfigType("yaml")
 
 	// load in config values
 	err := viper.ReadInConfig()
@@ -29,8 +29,8 @@ func main() {
 	}
 
 	// set defaults
-	viper.SetDefault("host", "127.0.0.1")
-	viper.SetDefault("port", 6000)
+	viper.SetDefault("api_config.host", "127.0.0.1")
+	viper.SetDefault("api_config.port", 6000)
 
 	// start fiber app
 	app := fiber.New()
@@ -48,11 +48,12 @@ func main() {
 		return c.Status(fiber.StatusAccepted).SendString("Trivia question has been successfully sent over!")
 	})
 
-	// problems with reading config
-	// to be corrected!
-	host := viper.GetString("host")
-	port := viper.GetInt("port")
-	fmt.Printf("Host: %s, Port: %d\n", host, port)
+	// retrieving values from
+	host := viper.GetString("api_config.host")
+	port := viper.GetInt("api_config.port")
 
-	app.Listen(":3000")
+	// create address and start the app
+	address := fmt.Sprintf("%s:%d", host, port)
+	fmt.Println(address)
+	//app.Listen(address)
 }

@@ -1,0 +1,4 @@
+database:
+  name: "postgres"
+  host: "localhost"
+  port: 5432
