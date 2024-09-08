@@ -60,7 +60,8 @@ func (db DB) Add(question Question) error {
 	// add a question to the database
 	res := db.Conn.Create(&question)
 	// check if the operation was successful
-	if res.Error != nil {
+	if err := res.Error; err != nil {
+		log.Printf("Error while adding to a database: %v", err)
 		return res.Error
 	}
 	// if it was return nil error
@@ -83,13 +84,15 @@ func (db DB) GetMany(count int) ([]Question, error) {
 	var questions []Question
 	// check if the given count is correct
 	if count <= 0 {
+		log.Printf("The given count could not be accepted: %v", count)
 		return questions, fmt.Errorf("you have to provide a correct count of rows to be returned")
 	}
 	// retrieve a given number of rows
 	result := db.Conn.Limit(5).Find(&questions)
 
 	// check if retrieving the rows was successful
-	if result.Error != nil {
+	if err := result.Error; err != nil {
+		log.Printf("Error while retrieving many: %v", err)
 		return nil, result.Error
 	}
 
@@ -104,6 +107,7 @@ func (db DB) GetSingle() (Question, error) {
 	result := db.Conn.First(&res_question)
 
 	if err := result.Error; err != nil {
+		log.Printf("Error while retrieving single: %v", err)
 		return res_question, fmt.Errorf("there was an error while retrieving the first row: %w", err)
 	}
 
@@ -118,6 +122,7 @@ func (db DB) GetRandom() (Question, error) {
 
 	// check if there is an error
 	if err := result.Error; err != nil {
+		log.Printf("Error while retrieving random: %v", err)
 		return res_question, fmt.Errorf("there was an error while retrieving a random row: %w", err)
 	}
 
