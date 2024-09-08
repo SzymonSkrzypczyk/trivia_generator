@@ -56,7 +56,7 @@ func main() {
 		if err := c.BodyParser(&question); err != nil {
 			return c.Status(fiber.StatusBadRequest).SendString("Invalid JSON")
 		}
-
+		// will be logged!
 		fmt.Printf("Received Question: %+v\n", question)
 
 		// maybe go routines for adding the rows?

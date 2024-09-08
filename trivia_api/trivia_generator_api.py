@@ -10,7 +10,7 @@ from langchain_core.output_parsers.string import StrOutputParser
 """
 To do: 
 - class for loading and validating config
-- class for logging
+- class for logging 
 - logging 
 
 """
@@ -51,8 +51,7 @@ prompt = PromptTemplate.from_template(
     "For example, for the topic 'countries':"
     "'What is the capital of Poland?', 'Warsaw', 'Berlin', 'Paris', 'Oslo', 'Warsaw'."
     "Only return the answer in CSV format, with values separated by commas, and nothing else. The correct answer"
-    "should be the same text that an answer to be chosen has. Also do not include any quotes in the string you return."
-    "Remember to only return the question and nothing more!"
+    "should be the same text that an answer to be chosen has."
 )
 chain = prompt | llm | StrOutputParser()
 
@@ -75,7 +74,9 @@ async def generate_question(category: str):
     data = await chain.ainvoke({"category": category})
     data = data.split(",")
 
+    # will be replaced with normal logic
     if len(data) != 6:
+        print(data)
         return fastapi.HTTPException(500, "Internal problem with generating data!")
 
     return Question(

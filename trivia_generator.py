@@ -6,6 +6,7 @@ import typer
 
 # constants
 API_CONFIG_SECTION = "api_config"
+DATABASE_API_CONFIG_SECTION = "database_api_config"
 HOST_CONFIG_FIELD = "host"
 PORT_CONFIG_FIELD = "port"
 TRIVIA_CONFIG_PATH = Path(__file__).parent / "trivia_api" / "trivia_config.ini"
@@ -19,6 +20,25 @@ CALLBACK_URL = f"http://{config.get(API_CONFIG_SECTION, HOST_CONFIG_FIELD)}:" \
 app = typer.Typer(name="trivia generator")
 
 
+async def send_to_database(session: aiohttp.ClientSession, question_data: dict):
+    """
+    Asynchronously sends a trivia question to the database.
+
+    :param session: aiohttp session object
+    :param question_data: question data to send
+    :return: response status or error
+    """
+    # checking of the values will be required
+    async with session.post(f"http://{config.get(DATABASE_API_CONFIG_SECTION, HOST_CONFIG_FIELD)}:"
+                            f"{config.get(DATABASE_API_CONFIG_SECTION, PORT_CONFIG_FIELD)}/database",
+                            json=question_data) as response:
+        # logging!!!
+        if response.status == 202:
+            print(f"Successfully sent question: {question_data}")
+        else:
+            print(f"Failed to send question: {question_data}, Status Code: {response.status}")
+
+
 async def fetch_question(session: aiohttp.ClientSession, category: str):
     """
     Asynchronously fetches a trivia question from the API.
@@ -28,7 +48,10 @@ async def fetch_question(session: aiohttp.ClientSession, category: str):
     :return: JSON response from the API
     """
     async with session.get(CALLBACK_URL, params={"category": category}) as response:
-        return await response.json()
+        if response.status == 200:
+            return await response.json()
+        else:
+            return None
 
 
 @app.command("generate")
@@ -55,9 +78,9 @@ async def generate_questions(category: str, question_number: int):
         tasks = [fetch_question(session, category) for _ in range(question_number)]
         results = await asyncio.gather(*tasks)
 
-        # here is the place for sending it over to the go database
-        for i, result in enumerate(results):
-            print(f"Question {i + 1}: {result}")
+        for result in results:
+            if result is not None:
+                await send_to_database(session, result)
 
 
 if __name__ == "__main__":
