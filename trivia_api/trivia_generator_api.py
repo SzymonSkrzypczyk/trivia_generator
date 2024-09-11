@@ -2,22 +2,29 @@ from pathlib import Path
 from string import Template
 import logging
 import fastapi
-from uvicorn import run
+import uvicorn
 from pydantic import BaseModel
 from langchain_community.llms import Ollama
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers.string import StrOutputParser
 
 from common import Logger, ConfigReader
+from get_ssl_cert import cert_gen
 
 # constants
 API_CONFIG_SECTION = "api_config"
 MODEL_CONFIG_SECTION = "model_config"
 HOST_CONFIG_FIELD = "host"
 PORT_CONFIG_FIELD = "port"
+SSL_KEY_CONFIG_FIELD = "ssl_key"
+SSL_CERT_CONFIG_FIELD = "ssl_certificate"
 MODEL_CONFIG_FIELD = "model"
+# paths
 TRIVIA_CONFIG_PATH = Path(__file__).parent / "trivia_config.ini"
 LOG_FILE_PATH = Path(__file__).parent / "logs" / "api_log.log"
+UVICORN_LOG_FILE_PATH = Path(__file__).parent / "logs" / "uvicorn_log.log"
+SSL_KEY_PATH = Path(__file__).parent / "keys" / "private.key"
+SSL_CERTIFICATE_PATH = Path(__file__).parent / "keys" / "selfsigned.crt"
 
 # messages
 MSG_PORT_IN_USE = Template("Port $port already in use")
@@ -26,11 +33,75 @@ MSG_UVICORN_STARTUP_ERROR = "Error at uvicorn startup"
 MSG_INTERNAL_SERVER_ERROR = "Internal problem with generating data!"
 MSG_KEYBOARD_INTERRUPTION = "Keyboard interruption - exit"
 MSG_INCORRECT_CATEGORY = "You have to provide a correct category!"
+MSG_UNEXPECTED_ERROR = "Unexpected error occured"
+
+
+class GeneratorConfig(ConfigReader):
+    def __init__(self, config_path: str | Path, _logger: Logger):
+        super().__init__(config_path, _logger)
+        # retrieve host and post fields
+        self.host = self.get_field(API_CONFIG_SECTION, HOST_CONFIG_FIELD)
+        if not self.host:
+            self.logger.log_exit("Host field cannot be empty!", logging.ERROR)
+        try:
+            self.port = int(self.get_field(API_CONFIG_SECTION, PORT_CONFIG_FIELD))
+        except TypeError as err:
+            self.logger.log_error(err)
+            self.logger.log_exit("You have to provide an integer value for the port field", logging.ERROR)
+
+        self.certificate, self.key = self.ssl_connection_setup()
+
+    def ssl_connection_setup(self):
+        # retrieve values
+        certificate = self.get_field(API_CONFIG_SECTION, SSL_CERT_CONFIG_FIELD)
+        key = self.get_field(API_CONFIG_SECTION, SSL_KEY_CONFIG_FIELD)
+
+        # check if the fields are empty
+        # if so generate a new certificate
+        if not certificate or not key:
+            cert_gen(cert_file=str(SSL_CERTIFICATE_PATH), key_file=str(SSL_KEY_PATH))
+
+        # set values for config fields
+        self.set_field(API_CONFIG_SECTION, SSL_CERT_CONFIG_FIELD, certificate)
+        self.set_field(API_CONFIG_SECTION, SSL_KEY_CONFIG_FIELD, key)
+
+        # return values
+        return str(SSL_CERTIFICATE_PATH), str(SSL_KEY_PATH)
+
 
 # setting up logging
 logger = Logger(str(LOG_FILE_PATH))
 # load config
-config = ConfigReader(str(TRIVIA_CONFIG_PATH), logger)
+config = GeneratorConfig(str(TRIVIA_CONFIG_PATH), logger)
+
+
+def configure_uvicorn_logger():
+    uvi_logger = uvicorn.config.LOGGING_CONFIG
+
+    # change format of logs
+    uvi_logger["formatters"]["access"]["fmt"] = "[%(asctime)s] %(levelname)s - %(message)s"
+    uvi_logger["formatters"]["default"]["fmt"] = "[%(asctime)s] %(levelname)s - %(message)s"
+
+    # create file_handler dict
+    file_handler = {
+        "class": "logging.FileHandler",
+        "formatter": "default",
+        "filename": str(UVICORN_LOG_FILE_PATH)
+    }
+
+    # use the file handler
+    uvi_logger["handlers"]["default"] = file_handler
+    uvi_logger["handlers"]["access"] = file_handler
+    uvi_logger["loggers"]["uvicorn"]["handlers"] = ["default"]
+    uvi_logger["loggers"]["uvicorn.access"]["handlers"] = ["access"]
+    uvi_logger["loggers"]["uvicorn.error"]["handlers"] = ["default"]
+
+    # avoid doubled output
+    uvi_logger["loggers"]["uvicorn"]["propagate"] = False
+    uvi_logger["loggers"]["uvicorn.access"]["propagate"] = False
+    uvi_logger["loggers"]["uvicorn.error"]["propagate"] = False
+
+    return uvi_logger
 
 
 class Question(BaseModel):
@@ -81,8 +152,15 @@ async def generate_question(category: str):
 
     data = await chain.ainvoke({"category": category})
     data = data.split(",")
+    if len(data) != 6:
+        # length of the list - target length + next index
+        calculated_pos = len(data) - 6 + 1
+        temp = ["".join(data[0:calculated_pos])]
+        temp.extend(data[calculated_pos:])
+        data = temp
 
     # will be replaced with normal logic
+    # To consider when it should be called!
     if len(data) != 6:
         logger.log_error(ValueError("generated data does not fit the template for an answer"),
                          f"The generated data has not been up to standard: {data}")
@@ -103,14 +181,18 @@ if __name__ == '__main__':
     # run the api
     # config values will be later extended
     logger.log_info(f"Starting up app at "
-                    f"{(host := config.get_field(API_CONFIG_SECTION, HOST_CONFIG_FIELD))}:"
-                    f"{(port := int(config.get_field(API_CONFIG_SECTION, PORT_CONFIG_FIELD)))}")
+                    f"{config.host}:"
+                    f"{config.port}")
     try:
         # https coming right up
-        run(
+        print()
+        uvicorn.run(
             app,
-            host=host,
-            port=port,
+            host=config.host,
+            port=config.port,
+            log_config=configure_uvicorn_logger(),
+            ssl_keyfile=config.key,
+            ssl_certfile=config.certificate
         )
     except KeyboardInterrupt:
         logger.log_exit(MSG_KEYBOARD_INTERRUPTION)
@@ -119,7 +201,10 @@ if __name__ == '__main__':
         logger.log_exit(MSG_WRONG_VALUE, logging.ERROR)
     except SystemExit as e:
         logger.log_error(e)
-        logger.log_exit(MSG_PORT_IN_USE.substitute(port=port), logging.ERROR)
+        logger.log_exit(MSG_PORT_IN_USE.substitute(port=config.port), logging.ERROR)
     except RuntimeError as e:
         logger.log_error(e)
         logger.log_exit(MSG_UVICORN_STARTUP_ERROR, logging.ERROR)
+    except Exception as e:
+        logger.log_error(e)
+        logger.log_exit(MSG_UNEXPECTED_ERROR, logging.ERROR)

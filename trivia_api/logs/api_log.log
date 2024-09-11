@@ -3,3 +3,402 @@
 [2024/09/08 19:02:34] DEBUG - Using selector: KqueueSelector
 [2024/09/08 19:02:56] INFO - LLM retrieved from Ollama
 [2024/09/08 19:02:56] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - Config loaded successfully!
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - Retrieving value for api_config.host
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - Retrieving value for api_config.port
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] ERROR - Config fields cannot be empty: .
+Traceback (most recent call last):
+  File "/Users/szymon/Desktop/projekty/trivia_generator/trivia_api/common.py", line 93, in get_field
+    raise ValueError(MSG_EMPTY_FIELD.substitute(section="", parameter=""))
+ValueError: Config fields cannot be empty: .
+[2024/09/11 09:05:09] ERROR - Config fields cannot be empty: api_config.ssl_certificate
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] ERROR - Config fields cannot be empty: .
+Traceback (most recent call last):
+  File "/Users/szymon/Desktop/projekty/trivia_generator/trivia_api/common.py", line 93, in get_field
+    raise ValueError(MSG_EMPTY_FIELD.substitute(section="", parameter=""))
+ValueError: Config fields cannot be empty: .
+[2024/09/11 09:05:09] ERROR - Config fields cannot be empty: api_config.ssl_key
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - Retrieving value for model_config.model
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - LLM retrieved from Ollama
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:05:09] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:05:09] INFO - 
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - Config loaded successfully!
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - Retrieving value for api_config.host
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - Retrieving value for api_config.port
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:06] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:06:06] INFO - 
+[2024/09/11 09:06:07] INFO - 
+[2024/09/11 09:06:07] INFO - Retrieving value for model_config.model
+[2024/09/11 09:06:07] INFO - 
+[2024/09/11 09:06:07] INFO - 
+[2024/09/11 09:06:07] INFO - LLM retrieved from Ollama
+[2024/09/11 09:06:07] INFO - 
+[2024/09/11 09:06:07] INFO - 
+[2024/09/11 09:06:07] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:06:07] INFO - 
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - Config loaded successfully!
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - Retrieving value for api_config.host
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - Retrieving value for api_config.port
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - Retrieving value for model_config.model
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - LLM retrieved from Ollama
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:08:02] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:08:02] INFO - 
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - Config loaded successfully!
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - Retrieving value for api_config.host
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - Retrieving value for api_config.port
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:11] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:09:11] INFO - 
+[2024/09/11 09:09:12] INFO - 
+[2024/09/11 09:09:12] INFO - Retrieving value for model_config.model
+[2024/09/11 09:09:12] INFO - 
+[2024/09/11 09:09:12] INFO - 
+[2024/09/11 09:09:12] INFO - LLM retrieved from Ollama
+[2024/09/11 09:09:12] INFO - 
+[2024/09/11 09:09:12] INFO - 
+[2024/09/11 09:09:12] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:09:12] INFO - 
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - Config loaded successfully!
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - Retrieving value for api_config.host
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - Retrieving value for api_config.port
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - Retrieving value for model_config.model
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - LLM retrieved from Ollama
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:14:02] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:14:02] INFO - 
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - Config loaded successfully!
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - Retrieving value for api_config.host
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - Retrieving value for api_config.port
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:12] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:15:12] INFO - 
+[2024/09/11 09:15:13] INFO - 
+[2024/09/11 09:15:13] INFO - Retrieving value for model_config.model
+[2024/09/11 09:15:13] INFO - 
+[2024/09/11 09:15:13] INFO - 
+[2024/09/11 09:15:13] INFO - LLM retrieved from Ollama
+[2024/09/11 09:15:13] INFO - 
+[2024/09/11 09:15:13] INFO - 
+[2024/09/11 09:15:13] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:15:13] INFO - 
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - Config loaded successfully!
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - Retrieving value for api_config.host
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - Retrieving value for api_config.port
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - Retrieving value for model_config.model
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - LLM retrieved from Ollama
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:15:38] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:15:38] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - Config loaded successfully!
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - Retrieving value for api_config.host
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - Retrieving value for api_config.port
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - Retrieving value for model_config.model
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - LLM retrieved from Ollama
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] ERROR - [Errno 20] Not a directory
+Traceback (most recent call last):
+  File "/Users/szymon/Desktop/projekty/trivia_generator/trivia_api/trivia_generator_api.py", line 182, in <module>
+    uvicorn.run(
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/main.py", line 577, in run
+    server.run()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/config.py", line 400, in load
+    self.ssl: ssl.SSLContext | None = create_ssl_context(
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/config.py", line 113, in create_ssl_context
+    ctx.load_cert_chain(certfile, keyfile, get_password)
+NotADirectoryError: [Errno 20] Not a directory
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] INFO - 
+[2024/09/11 09:21:30] ERROR - Unexpected error occured
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - Config loaded successfully!
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - Retrieving value for api_config.host
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - Retrieving value for api_config.port
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - Retrieving value for model_config.model
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - LLM retrieved from Ollama
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] ERROR - [Errno 20] Not a directory
+Traceback (most recent call last):
+  File "/Users/szymon/Desktop/projekty/trivia_generator/trivia_api/trivia_generator_api.py", line 182, in <module>
+    uvicorn.run(
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/main.py", line 577, in run
+    server.run()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/config.py", line 400, in load
+    self.ssl: ssl.SSLContext | None = create_ssl_context(
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/config.py", line 113, in create_ssl_context
+    ctx.load_cert_chain(certfile, keyfile, get_password)
+NotADirectoryError: [Errno 20] Not a directory
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] INFO - 
+[2024/09/11 09:21:32] ERROR - Unexpected error occured
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - Config loaded successfully!
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - Retrieving value for api_config.host
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - Retrieving value for api_config.port
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - Retrieving value for model_config.model
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - LLM retrieved from Ollama
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] ERROR - [Errno 20] Not a directory
+Traceback (most recent call last):
+  File "/Users/szymon/Desktop/projekty/trivia_generator/trivia_api/trivia_generator_api.py", line 182, in <module>
+    uvicorn.run(
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/main.py", line 577, in run
+    server.run()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/config.py", line 400, in load
+    self.ssl: ssl.SSLContext | None = create_ssl_context(
+  File "/Users/szymon/Desktop/cos/python/triviaAIGenerator/env/lib/python3.10/site-packages/uvicorn/config.py", line 113, in create_ssl_context
+    ctx.load_cert_chain(certfile, keyfile, get_password)
+NotADirectoryError: [Errno 20] Not a directory
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] INFO - 
+[2024/09/11 09:23:20] ERROR - Unexpected error occured
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - Config loaded successfully!
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - Retrieving value for api_config.host
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - Retrieving value for api_config.port
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - Retrieving value for model_config.model
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - LLM retrieved from Ollama
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:23:33] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:23:33] INFO - 
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - Config loaded successfully!
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - Retrieving value for api_config.host
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - Retrieving value for api_config.port
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - Retrieving value for api_config.ssl_certificate
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - Retrieving value for api_config.ssl_key
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - Retrieving value for model_config.model
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - LLM retrieved from Ollama
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:24:33] INFO - Starting up app at 127.0.0.1:5003
+[2024/09/11 09:24:33] INFO - 
+[2024/09/11 09:26:21] INFO - 
+[2024/09/11 09:26:21] INFO - Received ['"What was the name of the first permanent English settlement in North America?"', ' "Jamestown"', ' "Plymouth"', ' "Roanoke"', ' "New York"', ' "A"'] from the chain
+[2024/09/11 09:26:21] INFO - 
+[2024/09/11 09:26:23] INFO - 
+[2024/09/11 09:26:23] INFO - Received ['"What was the name of the treaty that ended World War I?"', ' "Treaty of Versailles"', ' "Treaty of Berlin"', ' "Armistice Agreement"', ' "Surrender Protocol"', ' "Treaty of Versailles"'] from the chain
+[2024/09/11 09:26:23] INFO - 
+[2024/09/11 09:26:24] INFO - 
+[2024/09/11 09:26:24] INFO - Received ['Here is a trivia question about History:\n\n"What was the main cause of the French Revolution?"', ' "Economic crisis"', ' "King Louis XVI\'s absolutism"', ' "The influence of the Enlightenment"', ' "The American Revolution"', ' "The influence of the Enlightenment"'] from the chain
+[2024/09/11 09:26:24] INFO - 
+[2024/09/11 09:27:21] INFO - 
+[2024/09/11 09:27:21] INFO - Received ['"What was the primary cause of the Black Death in Europe?"', ' "Famine"', ' "Drought"', ' "The Plague"', ' "War"', ' "The Plague"'] from the chain
+[2024/09/11 09:27:21] INFO - 
+[2024/09/11 09:27:24] INFO - 
+[2024/09/11 09:27:24] INFO - Received ['"What was the main cause of World War I?"', ' "Archduke Franz Ferdinand\'s assassination"', ' "Economic competition between European nations"', ' "Germany\'s aggressive territorial expansion"', ' "Tensions over colonial empires"', ' "Archduke Franz Ferdinand\'s assassination"'] from the chain
+[2024/09/11 09:27:24] INFO - 
+[2024/09/11 09:27:25] INFO - 
+[2024/09/11 09:27:25] ERROR - generated data does not fit the template for an answer
+NoneType: None
+[2024/09/11 09:27:25] ERROR - The generated data has not been up to standard: ['Here is a trivia question about History:\n\n"What was the name of the famous ship that sank after colliding with an iceberg on April 14', ' 1912?"', ' "Titanic"', ' "Aurora"', ' "Olympia"', ' "Lusitania"', ' "Titanic"']
+[2024/09/11 09:27:25] INFO - 

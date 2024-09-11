@@ -1,3 +1,4 @@
+import re
 from string import Template
 import configparser
 from pathlib import Path
@@ -84,24 +85,22 @@ class ConfigReader:
 
         return conf
 
-    def get_field(self, section: str, parameter: str) -> str | None:
+    def get_field(self, section: str, parameter: str) -> str:
         try:
             val = self.config.get(section, parameter)
             self.logger.log_info(MSG_RETRIEVING_VALUE.substitute(section=section, parameter=parameter))
 
-            if not val:
-                raise ValueError(MSG_EMPTY_FIELD.substitute(section="", parameter=""))
-
         except configparser.NoOptionError as e:
             self.logger.log_error(e, MSG_NO_SUCH_OPTION.substitute(section=section, parameter=parameter))
-            return None
+            self.logger.log_exit("Leaving...", logging.ERROR)
 
         except ValueError as e:
             self.logger.log_error(e, MSG_EMPTY_FIELD.substitute(section=section, parameter=parameter))
-            return None
+            self.logger.log_exit("Leaving...", logging.ERROR)
+
         except Exception as e:
             self.logger.log_error(e)
-            return None
+            self.logger.log_exit("Leaving...", logging.ERROR)
 
         return val
 
@@ -110,6 +109,10 @@ class ConfigReader:
             if not value:
                 raise ValueError(MSG_EMPTY_VALUE_SET.substitute(section=section, parameter=parameter))
             self.config.set(section, parameter, value)
+            # replace values in the config file
+            text = self.config_path.read_text()
+            text = re.sub(f"{parameter}=", f"{parameter}={value}", text)
+            self.config_path.write_text(text)
 
         except ValueError as e:
             self.logger.log_error(e, "Empty value provided")

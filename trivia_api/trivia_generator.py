@@ -1,5 +1,5 @@
 from pathlib import Path
-from configparser import ConfigParser
+import ssl
 import aiohttp
 import asyncio
 import typer
@@ -28,7 +28,7 @@ PORT_TARGET = config.get_field(DATABASE_API_CONFIG_SECTION, PORT_CONFIG_FIELD)
 
 if None in (HOST_TRIVIA, PORT_TRIVIA, PORT_TARGET, HOST_TARGET):
     logger.log_exit("Empty value in the config file - trivia generator")
-CALLBACK_URL = f"http://{HOST_TRIVIA}:{PORT_TRIVIA}/trivia"
+CALLBACK_URL = f"https://{HOST_TRIVIA}:{PORT_TRIVIA}/trivia"
 
 app = typer.Typer(name="trivia generator")
 
@@ -64,8 +64,13 @@ async def fetch_question(session: aiohttp.ClientSession, category: str):
     :param category: category for the trivia question
     :return: JSON response from the API
     """
+    ssl_context = ssl.create_default_context()
+
+    # Option 1: Disable certificate verification (use with caution in production)
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
     try:
-        async with session.get(CALLBACK_URL, params={"category": category}, timeout=15) as response:
+        async with session.get(CALLBACK_URL, params={"category": category}, ssl=ssl_context) as response:
             if response.status == 200:
                 return await response.json()
             else:
@@ -75,8 +80,9 @@ async def fetch_question(session: aiohttp.ClientSession, category: str):
                 return None
     except aiohttp.ClientError as e:
         logger.log_error(e, "Network error while fetching question")
-    except asyncio.TimeoutError as e:
-        logger.log_error(e, f"Timeout while fetching question for category {category}")
+    # this error for some reason was always executed
+    # except asyncio.TimeoutError as e:
+    #     logger.log_error(e, f"Timeout while fetching question for category {category}")
     except Exception as e:
         logger.log_error(e, "Unexpected error while fetching question")
     return None
