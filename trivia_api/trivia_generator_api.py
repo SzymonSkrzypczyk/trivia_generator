@@ -1,7 +1,6 @@
-import logging
-from logging.handlers import RotatingFileHandler
-from configparser import ConfigParser
 from pathlib import Path
+from string import Template
+import logging
 import fastapi
 from uvicorn import run
 from pydantic import BaseModel
@@ -9,11 +8,7 @@ from langchain_community.llms import Ollama
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers.string import StrOutputParser
 
-"""
-To do: 
-- class for loading and validating config
-- error handling
-"""
+from common import Logger, ConfigReader
 
 # constants
 API_CONFIG_SECTION = "api_config"
@@ -24,18 +19,18 @@ MODEL_CONFIG_FIELD = "model"
 TRIVIA_CONFIG_PATH = Path(__file__).parent / "trivia_config.ini"
 LOG_FILE_PATH = Path(__file__).parent / "logs" / "api_log.log"
 
-# load config
-config = ConfigParser()
-config.read(str(TRIVIA_CONFIG_PATH))
-
+# messages
+MSG_PORT_IN_USE = Template("Port $port already in use")
+MSG_WRONG_VALUE = "Wrong value for a parameter"
+MSG_UVICORN_STARTUP_ERROR = "Error at uvicorn startup"
+MSG_INTERNAL_SERVER_ERROR = "Internal problem with generating data!"
+MSG_KEYBOARD_INTERRUPTION = "Keyboard interruption - exit"
+MSG_INCORRECT_CATEGORY = "You have to provide a correct category!"
 
 # setting up logging
-logging.basicConfig(
-    handlers=[RotatingFileHandler(LOG_FILE_PATH, maxBytes=1000000, backupCount=8)],
-    level=logging.INFO,
-    format="[%(asctime)s] %(levelname)s - %(message)s",
-    datefmt="%Y/%m/%d %H:%M:%S"
-)
+logger = Logger(str(LOG_FILE_PATH))
+# load config
+config = ConfigReader(str(TRIVIA_CONFIG_PATH), logger)
 
 
 class Question(BaseModel):
@@ -53,8 +48,8 @@ class Question(BaseModel):
 # AI's components
 # defined once at the start of the execution
 # out of its simplicity it's not contained by any function or method
-llm = Ollama(model=config.get(MODEL_CONFIG_SECTION, MODEL_CONFIG_FIELD))
-logging.info("LLM retrieved from Ollama")
+llm = Ollama(model=config.get_field(MODEL_CONFIG_SECTION, MODEL_CONFIG_FIELD))
+logger.log_info("LLM retrieved from Ollama")
 
 prompt = PromptTemplate.from_template(
     "You are a trivia questions generator. For a given category: {category}, generate a question about this topic and "
@@ -81,19 +76,19 @@ async def generate_question(category: str):
     :rtype: Question | fastapi.HTTPException
     """
     if category == "":
-        logging.error("An empty category has been provided")
-        return fastapi.HTTPException(400, "You have to provide a correct category!")
+        logger.log_error(ValueError("Empty Category Provided"), "An empty category has been provided")
+        return fastapi.HTTPException(400, MSG_INCORRECT_CATEGORY)
 
     data = await chain.ainvoke({"category": category})
     data = data.split(",")
 
     # will be replaced with normal logic
     if len(data) != 6:
-        print(data)
-        logging.error(f"The generated data has not been up to standard: {data}")
-        return fastapi.HTTPException(500, "Internal problem with generating data!")
+        logger.log_error(ValueError("generated data does not fit the template for an answer"),
+                         f"The generated data has not been up to standard: {data}")
+        return fastapi.HTTPException(500, MSG_INTERNAL_SERVER_ERROR)
 
-    logging.info(f"Received {data} from the chain")
+    logger.log_info(f"Received {data} from the chain")
 
     return Question(
         question=data[0],
@@ -107,11 +102,24 @@ async def generate_question(category: str):
 if __name__ == '__main__':
     # run the api
     # config values will be later extended
-    logging.info(f"Starting up app at "
-                 f"{(host := config.get(API_CONFIG_SECTION, HOST_CONFIG_FIELD))}:"
-                 f"{(port := int(config.get(API_CONFIG_SECTION, PORT_CONFIG_FIELD)))}")
-    run(
-        app,
-        host=host,
-        port=port,
-    )
+    logger.log_info(f"Starting up app at "
+                    f"{(host := config.get_field(API_CONFIG_SECTION, HOST_CONFIG_FIELD))}:"
+                    f"{(port := int(config.get_field(API_CONFIG_SECTION, PORT_CONFIG_FIELD)))}")
+    try:
+        # https coming right up
+        run(
+            app,
+            host=host,
+            port=port,
+        )
+    except KeyboardInterrupt:
+        logger.log_exit(MSG_KEYBOARD_INTERRUPTION)
+    except ValueError as e:
+        logger.log_error(e)
+        logger.log_exit(MSG_WRONG_VALUE, logging.ERROR)
+    except SystemExit as e:
+        logger.log_error(e)
+        logger.log_exit(MSG_PORT_IN_USE.substitute(port=port), logging.ERROR)
+    except RuntimeError as e:
+        logger.log_error(e)
+        logger.log_exit(MSG_UVICORN_STARTUP_ERROR, logging.ERROR)
