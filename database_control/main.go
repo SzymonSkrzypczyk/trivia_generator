@@ -16,7 +16,11 @@ func logConfigValues() {
 	log.Println("Config values for database:")
 	if databaseConfig, ok := viper.AllSettings()["database"].(map[string]interface{}); ok {
 		for key, val := range databaseConfig {
-			log.Printf("%v = %v\n", key, val)
+		    if key == "password"{
+		        log.Printf("**************\n")
+		    }else{
+		        log.Printf("%v = %v\n", key, val)
+		    }
 		}
 	} else {
 		log.Fatalln("No database config found.")
