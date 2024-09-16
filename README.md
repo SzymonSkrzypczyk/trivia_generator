@@ -59,15 +59,20 @@ This project consists of three main components:
 
 To run the project one has to as of now:
 
-1. **Start the trivia generator API**:
+1. **Install Ollama and pull Llama3**:
+   ```bash
+    ollama pull llama3
+   ```
+
+3. **Start the trivia generator API**:
     ```bash
    python trivia_generator_api.py
    ```
-2. **Start the database connection API**:
+4. **Start the database connection API**:
    ```bash
    go run main.go
    ```
-3. **Run the CLI script**:
+5. **Run the CLI script**:
    ```bash
    python trivia_generator.py <category> --question-number <number>
    ```

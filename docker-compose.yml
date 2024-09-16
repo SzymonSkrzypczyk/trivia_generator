@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  go-fiber-api:
+    build:
+      context: ./database_control
+    ports:
+      - "7000:7000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: your-db-user
+      DB_PASSWORD: your-db-password
+      DB_NAME: your-db-name
+    depends_on:
+      - postgres
+
+  python-api:
+    build:
+      context: ./trivia_api
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: your-db-user
+      POSTGRES_PASSWORD: your-db-password
+      POSTGRES_DB: your-db-name
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  cli:
+    build:
+      context: ./trivia_api
+    entrypoint: ["/bin/sh", "-c", "sleep infinity"] # Keeps the container alive
+    depends_on:
+      - postgres

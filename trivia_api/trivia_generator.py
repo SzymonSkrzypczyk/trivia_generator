@@ -28,7 +28,10 @@ PORT_TARGET = config.get_field(DATABASE_API_CONFIG_SECTION, PORT_CONFIG_FIELD)
 
 if None in (HOST_TRIVIA, PORT_TRIVIA, PORT_TARGET, HOST_TARGET):
     logger.log_exit("Empty value in the config file - trivia generator")
-CALLBACK_URL = f"https://{HOST_TRIVIA}:{PORT_TRIVIA}/trivia"
+
+# for docker at the moment http
+# CALLBACK_URL = f"https://{HOST_TRIVIA}:{PORT_TRIVIA}/trivia"
+CALLBACK_URL = f"http://{HOST_TRIVIA}:{PORT_TRIVIA}/trivia"
 
 app = typer.Typer(name="trivia generator")
 
